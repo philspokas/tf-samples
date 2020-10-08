@@ -1,0 +1,24 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+
+# plan output
+*.out
+
+# terraform.txt files
+terraform.txt
+
+#powershell test files
+*.tests.ps1
+
+# provider files
+*.exe
+
+#cache files
+**/.terraform.d/plugin-chache
