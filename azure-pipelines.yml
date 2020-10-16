@@ -9,11 +9,22 @@ trigger:
 pool:
   name: 'pcs-test-pool'
 
+variables:
+  library: samples
+
 steps:
 - script: |
-    echo Initialize
+    echo --- Initialize ---
     terraform --version
     cd logicapps
-    terraform init
+    terraform init -backend-config="storage_account_name=$(tfStorageAccount)" `
+    -backend-config="container_name=$(tfStateContainerName)" `
+    -backend-config="access_key=$(tfAccountKey)" `
+    -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
+    -input=false
+    echo --- Plan ---
+    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "..\config\logicapp.tfvars"
+    # echo --- Apply ---
+    # terraform apply plan.out
   displayName: 'Sample Terraform execution'
 
