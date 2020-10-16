@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: 'Windows-agents'
+  name: 'pcs-test-pool'
 
 steps:
 - script: echo Hello, world!
