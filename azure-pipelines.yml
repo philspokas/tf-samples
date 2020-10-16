@@ -10,8 +10,10 @@ pool:
   name: 'pcs-test-pool'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: 
+    echo Initialize
+    Terraform --version
+  displayName: 'Sample Terraform execution'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
