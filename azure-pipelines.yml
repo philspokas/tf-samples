@@ -12,6 +12,8 @@ pool:
 steps:
 - script: |
     echo Initialize
-    Terraform --version
+    terraform --version
+    cd logicapps
+    terraform init
   displayName: 'Sample Terraform execution'
 
