@@ -10,16 +10,6 @@ provider "azurerm" {
     features {}   
 }
 
-# module "logicappworkflow" {
-#     for_each = toset(["la-pcstest-01","la-pcs-02","la-pcs-03"])
-#     source                   = "c:/users/pspokas/dev/azure/terraform/logicappworkflow"
-#     workflow_name            = "${each.key}"
-#     resource_group_name      = var.input_resource_group_name
-#     subscription_id          = var.subscription_id
-#     client_id                = var.client_id
-#     tenant_id                = var.tenant_id
-#     client_secret            = var.client_secret
-# }
 
 # module "logicappworkflow" {
 #     source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow?ref=features/logic-app-workflow"
@@ -47,5 +37,6 @@ module "servicebus" {
     subnet_name                 = "subnet-jmtest"
     private_endpoint_enabled    = "true"
 }
+
 
 
