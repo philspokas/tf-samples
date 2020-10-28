@@ -10,29 +10,32 @@ pool:
   name: 'pcs-test-pool'
 
 variables:
-  library: samples
+- name: target-dir
+  value: "./logicapps"
+- group: samples
+  
 
 steps:
 - powershell: |
     echo --- Initialize ---
     terraform --version
-    pwd
-    cd logicapps
     terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
     -backend-config "container_name=$(tfStateContainerName)" `
     -backend-config "access_key=$(tfAccountKey)" `
     -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
     -input=false
   displayName: 'Terraform init'
-  workingDirectory: ./logicapps
+  workingDirectory: $(target-dir)
 
 - script: |
     echo --- Plan ---
     terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "..\config\logicapp.tfvars"
   displayName: 'Terraform plan'
+  workingDirectory: $(target-dir)
 
 - script: |
     # echo --- Apply ---
     # terraform apply plan.out
   displayName: 'Terraform apply'
+  workingDirectory: $(target-dir)
 
