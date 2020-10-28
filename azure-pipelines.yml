@@ -13,7 +13,7 @@ variables:
   library: samples
 
 steps:
-- pwsh: |
+- powershell: |
     echo --- Initialize ---
     terraform --version
     pwd
