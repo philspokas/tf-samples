@@ -13,7 +13,7 @@ variables:
   library: samples
 
 steps:
-- script: |
+- pwsh: : |
     echo --- Initialize ---
     terraform --version
     pwd
@@ -24,6 +24,7 @@ steps:
     -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
     -input=false
   displayName: 'Terraform init'
+  workingDirectory: ./logicapps
 
 - script: |
     echo --- Plan ---
