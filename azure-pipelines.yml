@@ -17,14 +17,20 @@ steps:
     echo --- Initialize ---
     terraform --version
     cd logicapps
-    terraform init -backend-config="storage_account_name=$(tfStorageAccount)" `
-    -backend-config="container_name=$(tfStateContainerName)" `
-    -backend-config="access_key=$(tfAccountKey)" `
-    -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
+    terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
+    -backend-config "container_name=$(tfStateContainerName)" `
+    -backend-config "access_key=$(tfAccountKey)" `
+    -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
     -input=false
+  displayName: 'Terraform init'
+
+- script: |
     echo --- Plan ---
     terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "..\config\logicapp.tfvars"
+  displayName: 'Terraform plan'
+
+- script: |
     # echo --- Apply ---
     # terraform apply plan.out
-  displayName: 'Sample Terraform execution'
+  displayName: 'Terraform apply'
 
