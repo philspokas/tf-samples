@@ -16,6 +16,7 @@ steps:
 - script: |
     echo --- Initialize ---
     terraform --version
+    pwd
     cd logicapps
     terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
     -backend-config "container_name=$(tfStateContainerName)" `
