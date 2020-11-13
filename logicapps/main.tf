@@ -10,7 +10,7 @@ provider "azurerm" {
 }
 
 module "logicappworkflow" {
-    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow"
+    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow?ref=logicapp/1.0.0"
     workflow_name            = "la-pcstest-03"
     resource_group_name      = var.input_resource_group_name
     subscription_id          = var.subscription_id
@@ -21,7 +21,7 @@ module "logicappworkflow" {
 }
 
 module "servicebus" {
-    source                      = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/servicebus"
+    source                      = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/servicebus?ref=servicebus/1.0.0"
     namespace_name              = "sb-pcstest-03"
     resource_group_name         = var.input_resource_group_name
     subscription_id             = var.subscription_id
