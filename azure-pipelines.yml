@@ -29,13 +29,13 @@ steps:
 - script: |
     echo --- Plan ---
     set
-    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var "input_resource_group_name=Test01"
+    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)"
   displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
 - script: |
-    # echo --- Apply ---
-    # terraform apply plan.out
+    echo --- Apply ---
+    terraform apply plan.out
   displayName: 'Terraform apply'
   workingDirectory: $(target-dir)
 
