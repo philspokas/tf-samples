@@ -28,7 +28,7 @@ steps:
 
 - powershell: .\build\create-tfvars.ps1
   displayName: 'Build tfvars'
-  workdingDirectory: $(target-dir)
+  workingDirectory: $(target-dir)
 
 - powershell: |
     echo --- Plan ---
