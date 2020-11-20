@@ -34,8 +34,8 @@ steps:
   workingDirectory: $(target-dir)
 
 - script: |
-    # echo --- Apply ---
-    # terraform apply plan.out
+    echo --- Apply ---
+    terraform apply plan.out
   displayName: 'Terraform apply'
   workingDirectory: $(target-dir)
 
