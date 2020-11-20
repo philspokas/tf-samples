@@ -19,7 +19,7 @@ steps:
 - powershell: |
     echo --- Terraform check ---
     terraform --version
-    terraform init -backend false
+    terraform init
     terraform validate -no-color
   displayName: 'Validate Terraform'
   workingDirectory: $(target-dir)
