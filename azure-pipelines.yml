@@ -32,7 +32,7 @@ steps:
 
 - powershell: |
     echo --- Plan ---
-    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -varfile "main.tfvars"
+    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "main.tfvars"
   displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
