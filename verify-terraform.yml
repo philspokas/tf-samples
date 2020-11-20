@@ -1,0 +1,38 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- dev
+- master
+
+pool:
+  name: 'pcs-test-pool'
+
+variables:
+- name: target-dir
+  value: "./logicapps"
+- group: samples
+
+steps:
+- powershell: |
+    echo --- Terraform check ---
+    terraform --version
+    terraform init -backend false
+    terraform validate -no-color
+  displayName: 'Validate Terraform'
+  workingDirectory: $(target-dir)
+
+- powershell: |
+    $result = Select-String -Path *.tf -Pattern "^resource"
+    if ($result) {
+        $result
+        exit 1
+    }
+    else {
+        exit 0
+    }
+  displayName: 'Check terraform'
+  workingDirectory: $(target-dir)
+
