@@ -26,10 +26,13 @@ steps:
   displayName: 'Terraform init'
   workingDirectory: $(target-dir)
 
+- powershell: .\build\create-tfvars.ps1
+  displayName: 'Build tfvars'
+  workdingDirectory: $(target-dir)
+
 - powershell: |
     echo --- Plan ---
-    set
-    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)"
+    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -varfile="main.tfvars"
   displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
