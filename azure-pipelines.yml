@@ -42,3 +42,7 @@ steps:
   displayName: 'Terraform apply'
   workingDirectory: $(target-dir)
 
+- powershell: .\build\run-tests.ps1 
+  timeoutInMinutes: 30
+  displayName: 'Terraform plan'
+  workingDirectory: $(target-dir)
