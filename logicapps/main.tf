@@ -35,8 +35,7 @@ module "servicebus" {
 }
 
 # comment
-
-resource "azurerm_resource_group" "rg" {
-    name     = "philtestrg"
-    location = "West US 2"
-}
+# resource "azurerm_resource_group" "rg" {
+#     name     = "philtestrg"
+#     location = "West US 2"
+# }
