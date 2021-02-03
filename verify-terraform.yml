@@ -4,11 +4,10 @@
 # https://aka.ms/yaml
 
 trigger:
-- dev
-- master
+- dev/*
 
 pool:
-  name: 'pcs-test-pool'
+  name: 'Terraform-windows-agents'
 
 variables:
 - name: target-dir
