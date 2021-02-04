@@ -1,13 +1,10 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Terraform plan and apply
 
 trigger:
 - master
 
 pool:
-  name: 'pcs-test-pool'
+  name: 'Terraform-windows-agents'
 
 variables:
 - name: target-dir
@@ -36,9 +33,28 @@ steps:
   displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+    ScriptType: 'InlineScript'
+    Inline: 'terraform plan -out plan.out-var-file "main.tfvars"'
+    azurePowerShellVersion: 'LatestVersion'
+    workingDirectory: '$(target-dir)'
+
+# - task: TerraformCLI@0
+#   inputs:
+#     command: 'plan'
+#     environmentServiceName: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+#     commandOptions: '-var-file "main.tfvars"'
+#     allowTelemetryCollection: true
+
 - script: |
     echo --- Apply ---
     terraform apply plan.out
   displayName: 'Terraform apply'
   workingDirectory: $(target-dir)
 
+- powershell: .\build\run-tests.ps1 
+  timeoutInMinutes: 30
+  displayName: 'Terraform plan'
+  workingDirectory: $(target-dir)
