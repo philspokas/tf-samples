@@ -33,6 +33,21 @@ steps:
   displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+    ScriptType: 'InlineScript'
+    Inline: 'terraform plan -out plan.out-var-file "main.tfvars"'
+    azurePowerShellVersion: 'LatestVersion'
+    workingDirectory: '$(target-dir)'
+
+# - task: TerraformCLI@0
+#   inputs:
+#     command: 'plan'
+#     environmentServiceName: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+#     commandOptions: '-var-file "main.tfvars"'
+#     allowTelemetryCollection: true
+
 - script: |
     echo --- Apply ---
     terraform apply plan.out
