@@ -13,6 +13,7 @@ variables:
 
 steps:
 - powershell: |
+    pwd
     echo --- Terraform check ---
     terraform --version
     terraform init
