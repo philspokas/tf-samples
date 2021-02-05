@@ -1,7 +1,4 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Verify terraform script
 
 trigger:
 - dev/*
@@ -16,9 +13,10 @@ variables:
 
 steps:
 - powershell: |
+    pwd
     echo --- Terraform check ---
     terraform --version
-    terraform init -backend false
+    terraform init
     terraform validate -no-color
   displayName: 'Validate Terraform'
   workingDirectory: $(target-dir)
