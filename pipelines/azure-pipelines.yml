@@ -17,20 +17,40 @@ steps:
   displayName: 'Build tfvars'
   workingDirectory: $(target-dir)
 
-- task: AzurePowerShell@5
+- task: AzureCLI@2
   inputs:
-    azureSubscription: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
-    ScriptType: 'InlineScript'
-    Inline: |
+    azureSubscription: 'mti-policy-01-srvc'
+    scriptType: 'pscore'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
       terraform --version
       terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
         -backend-config "container_name=$(tfStateContainerName)" `
         -backend-config "access_key=$(tfAccountKey)" `
         -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
         -input=false
-      terraform plan -out plan.out -var-file "main.tfvars"
-    azurePowerShellVersion: 'LatestVersion'
+      terraform plan -out plan.out  -var-file "main.tfvars" -input=false `
+        -var "subscription_id=$(subscription_id)" `
+        -var "client_id=$(client_id)" `
+        -var "client_secret=$(client_secret)" `
+        -var "tenant_id=$(tenant_id)"
+    addSpnToEnvironment: true
     workingDirectory: '$(target-dir)'
+
+# - task: AzurePowerShell@5
+#   inputs:
+#     azureSubscription: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+#     ScriptType: 'InlineScript'
+#     Inline: |
+#       terraform --version
+#       terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
+#         -backend-config "container_name=$(tfStateContainerName)" `
+#         -backend-config "access_key=$(tfAccountKey)" `
+#         -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
+#         -input=false
+#       terraform plan -out plan.out -var-file "main.tfvars" -input=false
+#     azurePowerShellVersion: 'LatestVersion'
+#     workingDirectory: '$(target-dir)'
 
 # - powershell: |
 #     echo --- Initialize ---
