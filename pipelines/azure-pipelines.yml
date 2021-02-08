@@ -12,35 +12,42 @@ variables:
 - group: samples
 
 steps:
-- powershell: |
-    echo --- Initialize ---
-    terraform --version
-    terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
-    -backend-config "container_name=$(tfStateContainerName)" `
-    -backend-config "access_key=$(tfAccountKey)" `
-    -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
-    -input=false
-  displayName: 'Terraform init'
-  workingDirectory: $(target-dir)
 
 - powershell: .\build\create-tfvars.ps1
   displayName: 'Build tfvars'
-  workingDirectory: $(target-dir)
-
-- powershell: |
-    echo --- Plan ---
-    terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "main.tfvars"
-  displayName: 'Terraform plan'
   workingDirectory: $(target-dir)
 
 - task: AzurePowerShell@5
   inputs:
     azureSubscription: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
     ScriptType: 'InlineScript'
-    Inline: 'terraform -version'
-    # Inline: 'terraform plan -out plan.out -var-file "main.tfvars"'
+    Inline: |
+      terraform --version
+      terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
+        -backend-config "container_name=$(tfStateContainerName)" `
+        -backend-config "access_key=$(tfAccountKey)" `
+        -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
+        -input=false
+      terraform plan -out plan.out -var-file "main.tfvars"
     azurePowerShellVersion: 'LatestVersion'
     workingDirectory: '$(target-dir)'
+
+# - powershell: |
+#     echo --- Initialize ---
+#     terraform --version
+#     terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
+#     -backend-config "container_name=$(tfStateContainerName)" `
+#     -backend-config "access_key=$(tfAccountKey)" `
+#     -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
+#     -input=false
+#   displayName: 'Terraform init'
+#   workingDirectory: $(target-dir)
+
+# - powershell: |
+#     echo --- Plan ---
+#     terraform plan -out plan.out -var "subscription_id=$(subscription_id)" -var "client_id=$(client_id)" -var "client_secret=$(client_secret)" -var "tenant_id=$(tenant_id)" -var-file "main.tfvars"
+#   displayName: 'Terraform plan'
+#   workingDirectory: $(target-dir)
 
 # - script: |
 #     echo --- Apply ---
