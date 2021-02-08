@@ -42,14 +42,9 @@ steps:
     azurePowerShellVersion: 'LatestVersion'
     workingDirectory: '$(target-dir)'
 
-Stage
-- script: |
-    echo --- Apply ---
-    terraform apply plan.out
-  displayName: 'Terraform apply'
-  workingDirectory: $(target-dir)
+# - script: |
+#     echo --- Apply ---
+#     terraform apply plan.out
+#   displayName: 'Terraform apply'
+#   workingDirectory: $(target-dir)
 
-- powershell: .\build\run-tests.ps1 
-  timeoutInMinutes: 30
-  displayName: 'Terraform plan'
-  workingDirectory: $(target-dir)
