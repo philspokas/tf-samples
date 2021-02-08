@@ -48,6 +48,7 @@ steps:
 #     commandOptions: '-var-file "main.tfvars"'
 #     allowTelemetryCollection: true
 
+Stage
 - script: |
     echo --- Apply ---
     terraform apply plan.out

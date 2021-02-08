@@ -1,6 +1,7 @@
 # Verify terraform script
 
 trigger:
+- dev
 - dev/*
 
 pool:
