@@ -24,10 +24,10 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       terraform --version
-      terraform init -backend-config "storage_account_name=$(tfStorageAccount)" `
-        -backend-config "container_name=$(tfStateContainerName)" `
-        -backend-config "access_key=$(tfAccountKey)" `
-        -backend-config "key=$(MyEnvironmentName).sample.tfstate" `
+      terraform init -backend-config="storage_account_name=$(tfStorageAccount)" `
+        -backend-config="container_name=$(tfStateContainerName)" `
+        -backend-config="access_key=$(tfAccountKey)" `
+        -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
         -input=false
       terraform plan -out plan.out  -var-file "main.tfvars" -input=false `
         -var "subscription_id=$(subscription_id)" `
