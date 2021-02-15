@@ -11,36 +11,48 @@ variables:
   value: "./logicapps"
 - group: samples
 
-steps:
 
-- powershell: .\build\create-tfvars.ps1
-  displayName: 'Build tfvars'
-  workingDirectory: $(target-dir)
+jobs:
+- job: init and plan
+  steps:
+  - powershell: .\build\create-tfvars.ps1
+    displayName: 'Build tfvars'
+    workingDirectory: $(target-dir)
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'mti-policy-01-srvc'
-    scriptType: 'ps'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      terraform --version
-      terraform init -backend-config="storage_account_name=$(tfStorageAccount)" `
-        -backend-config="container_name=$(tfStateContainerName)" `
-        -backend-config="access_key=$(tfAccountKey)" `
-        -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
-        -input=false
-      terraform plan -out plan.out  -var-file "main.tfvars" -input=false `
-        -var "subscription_id=$(subscription_id)" `
-        -var "client_id=$env:servicePrincipalId" `
-        -var "client_secret=$env:servicePrincipalKey" `
-        -var "tenant_id=$env:tenantId"
-    addSpnToEnvironment: true
-    workingDirectory: '$(target-dir)'
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'mti-policy-01-srvc'
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        terraform --version
+        terraform init -backend-config="storage_account_name=$(tfStorageAccount)" `
+          -backend-config="container_name=$(tfStateContainerName)" `
+          -backend-config="access_key=$(tfAccountKey)" `
+          -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
+          -input=false
+        terraform plan -out plan.out  -var-file "main.tfvars" -input=false `
+          -var "subscription_id=$(subscription_id)" `
+          -var "client_id=$env:servicePrincipalId" `
+          -var "client_secret=$env:servicePrincipalKey" `
+          -var "tenant_id=$env:tenantId"
+      addSpnToEnvironment: true
+      workingDirectory: '$(target-dir)'
 
-
-# - script: |
-#     echo --- Apply ---
-#     terraform apply plan.out
-#   displayName: 'Terraform apply'
-#   workingDirectory: $(target-dir)
-
+- job: apply
+  displayName: Apply after validation  
+  pool: server    
+  timeoutInMinutes: 2880 # times out in 2 days
+  steps:   
+  - task: ManualValidation@0
+    timeoutInMinutes: 1440 # task times out in 1 day
+    inputs:
+      notifyUsers: |
+        pspokas@micron.com
+      instructions: 'Please validate the build configuration and resume'
+      onTimeout: 'resume'
+  - script: |
+      echo --- Apply ---
+      terraform apply plan.out
+    displayName: 'Terraform apply'
+    workingDirectory: $(target-dir)
