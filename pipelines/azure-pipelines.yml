@@ -39,7 +39,7 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
-- job: apply
+- job: confirm_plan
   displayName: Apply after validation  
   pool: server    
   timeoutInMinutes: 2880 # times out in 2 days
@@ -51,8 +51,12 @@ jobs:
         pspokas@micron.com
       instructions: 'Please validate the build configuration and resume'
       onTimeout: 'resume'
+
+- job: apply
+  steps:
   - script: |
       echo --- Apply ---
       terraform apply plan.out
     displayName: 'Terraform apply'
     workingDirectory: $(target-dir)
+
