@@ -40,6 +40,7 @@ jobs:
       workingDirectory: '$(target-dir)'
 
 - job: confirm_plan
+  dependsOn: init_and_plan
   displayName: Apply after validation  
   pool: server    
   timeoutInMinutes: 2880 # times out in 2 days
@@ -53,6 +54,7 @@ jobs:
       onTimeout: 'resume'
 
 - job: apply
+  dependsOn: confirm_plan
   steps:
   - script: |
       echo --- Apply ---
