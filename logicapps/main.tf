@@ -4,8 +4,13 @@ variable subscription_id {}
 variable client_secret {}
 variable resource_group_name {}
 
+terraform {
+    backend "azurerm" {
+    }
+}
+
 provider "azurerm" {
-    version = "2.30"
+    version = "2.47"
     features {}   
 }
 
