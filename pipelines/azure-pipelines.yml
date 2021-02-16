@@ -33,9 +33,7 @@ jobs:
           -backend-config="storage_account_name=$(tfStorageAccount)" `
           -backend-config="container_name=$(tfStateContainerName)" `
           -backend-config="access_key=$(tfAccountKey)" `
-          -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
-          -input=false
-        
+          -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
   - task: AzureCLI@2
