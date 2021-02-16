@@ -34,11 +34,11 @@ jobs:
           -backend-config="access_key=$(tfAccountKey)" `
           -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
           -input=false
-        terraform plan -out plan.out  -var-file "main.tfvars" -input=false `
-          -var "subscription_id=$(subscription_id)" `
+        terraform plan -out plan.out  -var-file "main.tfvars" -var "subscription_id=$(subscription_id)" `
           -var "client_id=$env:servicePrincipalId" `
           -var "client_secret=$env:servicePrincipalKey" `
-          -var "tenant_id=$env:tenantId"
+          -var "tenant_id=$env:tenantId" `
+          -input=false 
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
