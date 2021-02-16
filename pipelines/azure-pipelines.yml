@@ -38,7 +38,7 @@ jobs:
         type main.tfvars
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
-          -var "subscription_id=$env:subscription_id)" `
+          -var "subscription_id=$env:subscription_id" `
           -var "client_id=$env:servicePrincipalId" `
           -var "client_secret=$env:servicePrincipalKey" `
           -var "tenant_id=$env:tenantId" `
