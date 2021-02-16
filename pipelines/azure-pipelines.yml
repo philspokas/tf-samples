@@ -27,6 +27,7 @@ jobs:
       scriptType: 'ps'
       scriptLocation: 'inlineScript'
       inlineScript: |
+        dir env:*
         terraform --version
         terraform init `
           -backend-config="resource_group_name=$(resource_group_name)" `
