@@ -10,6 +10,7 @@ variables:
 - name: target-dir
   value: "./logicapps"
 - group: samples
+- group: tags
 
 
 jobs:
