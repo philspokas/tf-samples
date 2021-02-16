@@ -34,11 +34,8 @@ jobs:
           -backend-config="access_key=$(tfAccountKey)" `
           -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
           -input=false
-        "---"
         dir env:*
-        "---"
         type main.tfvars
-        "---"
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
           -var "subscription_id=$env:subscription_id)" `
