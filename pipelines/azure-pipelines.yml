@@ -33,23 +33,6 @@ jobs:
           -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
       workingDirectory: '$(target-dir)'
 
-  # - task: AzureCLI@2
-  #   displayName: init
-  #   inputs:
-  #     azureSubscription: 'mti-policy-01-srvc'
-  #     scriptType: 'ps'
-  #     scriptLocation: 'inlineScript'
-  #     inlineScript: |
-  #       dir env:*
-  #       terraform --version
-  #       terraform init `
-  #         -backend-config="resource_group_name=$(resource_group_name)" `
-  #         -backend-config="storage_account_name=$(tfStorageAccount)" `
-  #         -backend-config="container_name=$(tfStateContainerName)" `
-  #         -backend-config="access_key=$(tfAccountKey)" `
-  #         -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
-  #     addSpnToEnvironment: true
-  #     workingDirectory: '$(target-dir)'
   - task: AzureCLI@2
     displayName: debug
     inputs:
@@ -68,6 +51,7 @@ jobs:
       scriptType: 'ps'
       scriptLocation: 'inlineScript'
       inlineScript: |
+        dir env:*
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
           -var "subscription_id=$env:subscription_id" `
