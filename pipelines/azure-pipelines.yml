@@ -19,24 +19,37 @@ jobs:
   - powershell: .\build\create-tfvars.ps1
     displayName: 'Build tfvars'
     workingDirectory: $(target-dir)
-
-  - task: AzureCLI@2
-    displayName: init
+  
+  - task: PowerShell@2
     inputs:
-      azureSubscription: 'mti-policy-01-srvc'
-      scriptType: 'ps'
-      scriptLocation: 'inlineScript'
-      inlineScript: |
-        dir env:*
-        terraform --version
+      targetType: 'inline'
+      script: |
+        # Write your PowerShell commands here.
         terraform init `
           -backend-config="resource_group_name=$(resource_group_name)" `
           -backend-config="storage_account_name=$(tfStorageAccount)" `
           -backend-config="container_name=$(tfStateContainerName)" `
           -backend-config="access_key=$(tfAccountKey)" `
           -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
-      addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
+
+  # - task: AzureCLI@2
+  #   displayName: init
+  #   inputs:
+  #     azureSubscription: 'mti-policy-01-srvc'
+  #     scriptType: 'ps'
+  #     scriptLocation: 'inlineScript'
+  #     inlineScript: |
+  #       dir env:*
+  #       terraform --version
+  #       terraform init `
+  #         -backend-config="resource_group_name=$(resource_group_name)" `
+  #         -backend-config="storage_account_name=$(tfStorageAccount)" `
+  #         -backend-config="container_name=$(tfStateContainerName)" `
+  #         -backend-config="access_key=$(tfAccountKey)" `
+  #         -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
+  #     addSpnToEnvironment: true
+  #     workingDirectory: '$(target-dir)'
   - task: AzureCLI@2
     displayName: debug
     inputs:
