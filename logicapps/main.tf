@@ -3,6 +3,11 @@ variable tenant_id {}
 variable subscription_id {}
 variable client_secret {}
 variable resource_group_name {}
+variable BusinessUnit {}
+variable Contact {}
+variable CostCenter {}
+variable Environment {}
+variable Tier {}
 
 terraform {
     backend "azurerm" {
@@ -23,6 +28,11 @@ module "logicappworkflow" {
     tenant_id                = var.tenant_id
     client_secret            = var.client_secret
     use_integration_service  = false
+    BusinessUnit = var.BusinessUnit
+    Contact = var.Contact
+    CostCenter = var.CostCenter
+    Environment = var.Environment
+    Tier = var.Tier
 }
 
 module "servicebus" {
@@ -33,9 +43,9 @@ module "servicebus" {
     client_id                   = var.client_id
     tenant_id                   = var.tenant_id
     client_secret               = var.client_secret 
-    vnet_resource_group_name    = var.resource_group_name
-    vnet_name                   = "vnet-dev-vmtest"
-    subnet_name                 = "subnet-jmtest"
-    private_endpoint_enabled    = "true"
+    vnet_resource_group_name    = null
+    vnet_name                   = null
+    subnet_name                 = null
+    private_endpoint_enabled    = "false"
 }
 
