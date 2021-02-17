@@ -15,7 +15,7 @@ provider "azurerm" {
 }
 
 module "logicappworkflow" {
-    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow?ref=logicapp/1.0.0"
+    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow?ref=logicappworkflow/1.0.0"
     workflow_name            = "la-pcstest-03"
     resource_group_name      = var.resource_group_name
     subscription_id          = var.subscription_id
