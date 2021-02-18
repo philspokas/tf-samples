@@ -20,6 +20,18 @@ jobs:
     displayName: 'Build tfvars'
     workingDirectory: $(target-dir)
   
+  # - task: PowerShell@2
+  #   displayName: 'terraform init'
+  #   inputs:
+  #     targetType: 'inline'
+  #     script: |
+  #       terraform init `
+  #         -backend-config="resource_group_name=$(resource_group_name)" `
+  #         -backend-config="storage_account_name=$(tfStorageAccount)" `
+  #         -backend-config="container_name=$(tfStateContainerName)" `
+  #         -backend-config="access_key=$(tfAccountKey)" `
+  #         -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
+  #     workingDirectory: '$(target-dir)'
   - task: PowerShell@2
     displayName: 'terraform init'
     inputs:
@@ -38,13 +50,13 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        terraform plan -out plan.out  `
-          -var-file "main.tfvars" `
-          -var "subscription_id=$(subscription_id)" `
-          -var "client_id=$(client_id)" `
-          -var "client_secret=$(client_secret)" `
-          -var "tenant_id=$(tenant_id)" `
-          -input=false
+        $cmd = "terraform plan -out plan.out -input=false "
+        $cmd += "-var-file main.tfvars "
+        $cmd += "-var `"subscription_id=$(subscription_id)`" "
+        $cmd += "-var `"client_id=$(client_id)`" " 
+        $cmd += "-var `"client_secret=$(client_secret)`" "
+        $cmd += "-var `"tenant_id=$(tenant_id)`" "
+        iex $cmd 
       workingDirectory: '$(target-dir)'
 
   # - task: AzureCLI@2
