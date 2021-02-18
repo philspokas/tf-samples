@@ -25,7 +25,6 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        # Write your PowerShell commands here.
         terraform init `
           -backend-config="resource_group_name=$(resource_group_name)" `
           -backend-config="storage_account_name=$(tfStorageAccount)" `
@@ -68,7 +67,7 @@ jobs:
 
 - job: confirm_plan
   dependsOn: init_and_plan
-  displayName: Apply after validation  
+  displayName: Review and confirm plan  
   pool: server    
   timeoutInMinutes: 2880 # times out in 2 days
   steps:   
