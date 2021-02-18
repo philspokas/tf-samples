@@ -44,21 +44,29 @@ jobs:
         type main.tfvars
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'      
+
+  - task: TerraformCLI@0
+    inputs:
+      command: 'plan'
+      workingDirectory: '$(target-dir)'
+      environmentServiceName: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
+      commandOptions: '-out plan.out -input=false -var "subscription_id=${subscription_id}" '
+      allowTelemetryCollection: true
+
   - task: AzureCLI@2
     displayName: plan
     inputs:
       azureSubscription: 'mti-policy-01-srvc'
-      scriptType: 'ps'
+      scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        dir env:*
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
-          -var "subscription_id=$env:subscription_id" `
-          -var "client_id=$env:servicePrincipalId" `
-          -var "client_secret=$env:servicePrincipalKey" `
-          -var "tenant_id=$env:tenantId" `
-          -input=false >> plan_output.txt
+          -var "subscription_id=${subscription_id}" `
+          -var "client_id=$servicePrincipalId" `
+          -var "client_secret=$servicePrincipalKey" `
+          -var "tenant_id=$tenantId" `
+          -input=false
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
