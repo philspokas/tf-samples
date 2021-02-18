@@ -52,12 +52,12 @@ jobs:
       scriptType: 'batch'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        terraform plan -out plan.out  `
-          -var-file "main.tfvars" `
-          -var "subscription_id=${subscription_id}" `
-          -var "client_id=$servicePrincipalId" `
-          -var "client_secret=$servicePrincipalKey" `
-          -var "tenant_id=$tenantId" `
+        terraform plan -out plan.out  ^
+          -var-file "main.tfvars" ^
+          -var "subscription_id=${subscription_id}" ^
+          -var "client_id=$servicePrincipalId" ^
+          -var "client_secret=$servicePrincipalKey" ^
+          -var "tenant_id=$tenantId" ^
           -input=false
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
