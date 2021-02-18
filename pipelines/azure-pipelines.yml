@@ -49,7 +49,7 @@ jobs:
     displayName: plan
     inputs:
       azureSubscription: 'mti-policy-01-srvc'
-      scriptType: 'ps'
+      scriptType: 'batch'
       scriptLocation: 'inlineScript'
       inlineScript: |
         terraform plan -out plan.out  `
