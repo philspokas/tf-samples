@@ -62,6 +62,7 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
+
 - job: confirm_plan
   dependsOn: init_and_plan
   displayName: Apply after validation  
