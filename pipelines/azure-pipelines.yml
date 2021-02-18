@@ -45,20 +45,11 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'      
 
-  - task: TerraformCLI@0
-    inputs:
-      command: 'plan'
-      workingDirectory: '$(target-dir)'
-      environmentServiceName: 'MTI Policy 01 (a0570af2-7fef-4c0b-a9fd-40ccba0668a3)'
-      commandOptions: '-out plan.out -input=false -var-file main.tfvars -var "subscription_id=${subscription_id}" '
-      allowTelemetryCollection: true
-    continueOnError: true
-
   - task: AzureCLI@2
     displayName: plan
     inputs:
       azureSubscription: 'mti-policy-01-srvc'
-      scriptType: 'bash'
+      scriptType: 'pscore'
       scriptLocation: 'inlineScript'
       inlineScript: |
         terraform plan -out plan.out  `
