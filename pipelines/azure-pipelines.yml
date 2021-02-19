@@ -38,6 +38,7 @@ jobs:
           type error.txt
           "--- output ---"
           type output.txt
+      errorActionPreference: 'continue'
       workingDirectory: '$(target-dir)'
 
   # - task: PowerShell@2
