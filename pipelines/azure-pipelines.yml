@@ -30,7 +30,8 @@ jobs:
           -backend-config="storage_account_name=$(tfStorageAccount)" `
           -backend-config="container_name=$(tfStateContainerName)" `
           -backend-config="access_key=$(tfAccountKey)" `
-          -backend-config="key=$(MyEnvironmentName).sample.tfstate" 
+          -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
+          -input=false  3>warn.txt 2>error.txt >output.txt
       workingDirectory: '$(target-dir)'
 
   # - task: PowerShell@2
