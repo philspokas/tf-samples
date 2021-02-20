@@ -41,25 +41,11 @@ jobs:
       errorActionPreference: 'continue'
       workingDirectory: '$(target-dir)'
 
-  # - task: PowerShell@2
-  #   displayName: 'terraform plan'
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: |
-  #       $cmd = "terraform plan -out plan.out -input=false "
-  #       $cmd += "-var-file main.tfvars "
-  #       $cmd += "-var `"subscription_id=$(subscription_id)`" "
-  #       $cmd += "-var `"client_id=$(client_id)`" " 
-  #       $cmd += "-var `"client_secret=$(client_secret)`" "
-  #       $cmd += "-var `"tenant_id=$(tenant_id)`" "
-  #       iex $cmd 
-  #     workingDirectory: '$(target-dir)'
-
   - task: AzureCLI@2
     displayName: plan
     inputs:
       azureSubscription: 'mti-policy-01-srvc'
-      scriptType: 'batch'
+      scriptType: 'ps'
       scriptLocation: 'inlineScript'
       inlineScript: |
         terraform plan -out plan.out  ^
@@ -75,6 +61,7 @@ jobs:
         type error.txt
         "--- output ---"
         type output.txt
+      powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
