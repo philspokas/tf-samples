@@ -61,10 +61,15 @@ jobs:
         type warn.txt
         "--- output ---------------------------------------------------------------------------------------------"
         type output.txt
-        Write-Host "##vso[task.LogIssue type=error;]$(Get-Content error.txt)"
+        Get-Content error.txt | Foreach-Object {
+          Write-Host "##vso[task.LogIssue type=error;]$_"
+        }
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
+
+  - publish: $(target-dir)/*.txt
+    artifact: PlanOutput
 
   - publish: $(target-dir)/plan.out
     artifact: TerraformPlan
