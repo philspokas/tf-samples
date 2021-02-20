@@ -55,16 +55,19 @@ jobs:
           -var "client_secret=$servicePrincipalKey" `
           -var "tenant_id=$tenantId" `
           -input=false  3>warn.txt 2>error.txt >output.txt
-        "---- warnings --- "
-        type warn.txt
-        "--- errors ---"
+        "--- errors ---------------------------------------------------------------------------------------------"
         type error.txt
-        "--- output ---"
+        "--- warnings -------------------------------------------------------------------------------------------"
+        type warn.txt
+        "--- output ---------------------------------------------------------------------------------------------"
         type output.txt
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
+  - publish: $(target-dir)/plan.out
+    artifact: TerraformPlan
+  
 - job: confirm_plan
   dependsOn: init_and_plan
   displayName: Review and confirm plan  
@@ -82,9 +85,12 @@ jobs:
 - job: apply
   dependsOn: confirm_plan
   steps:
+  - download: current
+    artifact: TerraformPlan
+
   - script: |
       echo --- Apply ---
-      terraform apply plan.out
+      terraform apply $(Pipeline.Workspace)/TerraformPlan/plan.out
     displayName: 'Terraform apply'
     workingDirectory: $(target-dir)
 
