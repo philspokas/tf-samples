@@ -72,10 +72,9 @@ jobs:
     displayName: debug
     inputs:
       targetType: inline
-      script: dir *.*
-      workingDirectory: '$(target-dir)'
+      script: dir $(Build.SourcesDirectory)/$(target-dir)/*.txt
 
-  - publish: $(Build.SourcesDirectory)/$(target-dir)/*.txt
+  - publish: '$(Build.SourcesDirectory)/$(target-dir)/*.txt'
     artifact: PlanOutput
 
   - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
