@@ -68,10 +68,10 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
-  - publish: $(target-dir)/*.txt
+  - publish: $(Build.SourcesDirectory)/$(target-dir)/*.txt
     artifact: PlanOutput
 
-  - publish: $(target-dir)/plan.out
+  - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
     artifact: TerraformPlan
   
 - job: confirm_plan
