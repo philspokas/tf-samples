@@ -68,6 +68,13 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
+  - task: PowerShell@2
+    displayName: debug
+    inputs:
+      targetType: inline
+      script: dir *.*
+      workingDirectory: '$(target-dir)'
+
   - publish: $(Build.SourcesDirectory)/$(target-dir)/*.txt
     artifact: PlanOutput
 
