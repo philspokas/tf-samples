@@ -43,9 +43,9 @@ module "servicebus" {
     client_id                   = var.client_id
     tenant_id                   = var.tenant_id
     client_secret               = var.client_secret 
-    vnet_resource_group_name    = null
-    vnet_name                   = null
-    subnet_name                 = null
+    vnet_resource_group_name    = ""
+    vnet_name                   = ""
+    subnet_name                 = ""
     private_endpoint_enabled    = "false"
 }
 
