@@ -68,7 +68,6 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
-
   - publish: $(target-dir)/*.txt
     artifact: PlanOutput
 
