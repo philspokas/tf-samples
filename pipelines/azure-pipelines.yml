@@ -47,7 +47,7 @@ jobs:
       scriptType: 'ps'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        $out = "$(Build.ArtifactStagingDirectory)/output"
+        $out = "$(Build.ArtifactStagingDirectory)/$(target-dir)/output"
         New-Item -Path $out -ItemType Directory
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
@@ -65,7 +65,7 @@ jobs:
         Get-Content error.txt | Foreach-Object {
           Write-Host "##vso[task.LogIssue type=error;]$_"
         }
-        # Write-Host "##vso[task.uploadsummary]$(Build.ArtifactStagingDirectory)/$(target-dir)/output.txt"
+        # Write-Host "##vso[task.uploadsummary]$out/output.txt"
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
@@ -128,7 +128,7 @@ jobs:
           -var "client_id=$env:servicePrincipalId" `
           -var "client_secret=$env:servicePrincipalKey" `
           -var "tenant_id=$env:tenantId" `
-          -input=false  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
+          -input=false
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
