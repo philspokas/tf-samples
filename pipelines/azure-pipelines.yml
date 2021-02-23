@@ -12,7 +12,6 @@ variables:
 - group: samples
 - group: tags
 
-
 jobs:
 - job: init_and_plan
   steps:
@@ -80,12 +79,15 @@ jobs:
   pool: server    
   timeoutInMinutes: 2880 # times out in 2 days
   steps:   
+  - download: current
+    artifact: PlanOutput
+
   - task: ManualValidation@0
     timeoutInMinutes: 1440 # task times out in 1 day
     inputs:
       notifyUsers: |
         pspokas@micron.com
-      instructions: 'Please validate the build configuration and resume'
+      instructions: 'Review and validate plan: $(Pipeline.Workspace)/PlanOutput/output.txt'
       onTimeout: 'resume'
 
 - job: apply
