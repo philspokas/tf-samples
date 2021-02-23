@@ -49,10 +49,10 @@ jobs:
       inlineScript: |
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
-          -var "subscription_id=${subscription_id}" `
-          -var "client_id=$servicePrincipalId" `
-          -var "client_secret=$servicePrincipalKey" `
-          -var "tenant_id=$tenantId" `
+          -var "subscription_id=$(subscription_id)" `
+          -var "client_id=$env:servicePrincipalId" `
+          -var "client_secret=$env:servicePrincipalKey" `
+          -var "tenant_id=$env:tenantId" `
           -input=false  3>warn.txt 2>error.txt >output.txt
         "--- errors ---------------------------------------------------------------------------------------------"
         type error.txt
