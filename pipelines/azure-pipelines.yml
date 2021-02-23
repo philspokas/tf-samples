@@ -55,7 +55,7 @@ jobs:
           -var "client_id=$env:servicePrincipalId" `
           -var "client_secret=$env:servicePrincipalKey" `
           -var "tenant_id=$env:tenantId" `
-          -input=false  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
+          -input=false -no-color  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
         "--- errors ---------------------------------------------------------------------------------------------"
         type $out/error.txt
         "--- warnings -------------------------------------------------------------------------------------------"
