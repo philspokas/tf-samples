@@ -93,8 +93,6 @@ jobs:
 
 - job: apply
   dependsOn: confirm_plan
-  workspace:
-    clean: outputs
     
   steps:
   - download: current
