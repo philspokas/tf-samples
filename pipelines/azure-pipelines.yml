@@ -63,7 +63,7 @@ jobs:
         Get-Content error.txt | Foreach-Object {
           Write-Host "##vso[task.LogIssue type=error;]$_"
         }
-        Write-Host "##vso[task.uploadsummary]$(target-dir)/output.txt"
+        Write-Host "##vso[task.uploadsummary]$(Build.SourcesDirectory)/$(target-dir)/output.txt"
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
