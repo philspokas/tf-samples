@@ -69,22 +69,9 @@ jobs:
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
 
-  - task: PowerShell@2
-    displayName: debug
-    inputs:
-      targetType: inline
-      script: dir $(Build.SourcesDirectory)/$(target-dir)/*.txt
-
   - publish: $(Build.SourcesDirectory)/$(target-dir)/output
     artifact: PlanOutput
     continueOnError: true
-
-  - task: PowerShell@2
-    displayName: debug
-    inputs:
-      targetType: inline
-      script: dir $(Build.SourcesDirectory)/$(target-dir)/*.txt
-
 
   - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
     artifact: TerraformPlan
