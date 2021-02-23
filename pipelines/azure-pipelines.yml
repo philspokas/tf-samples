@@ -63,9 +63,11 @@ jobs:
         Get-Content error.txt | Foreach-Object {
           Write-Host "##vso[task.LogIssue type=error;]$_"
         }
+        Write-Host "##vso[task.uploadsummary]$(target-dir)/output.txt"
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
+
 
   - publish: $(target-dir)/*.txt
     artifact: PlanOutput
@@ -79,15 +81,12 @@ jobs:
   pool: server    
   timeoutInMinutes: 2880 # times out in 2 days
   steps:   
-  - download: current
-    artifact: PlanOutput
-
   - task: ManualValidation@0
     timeoutInMinutes: 1440 # task times out in 1 day
     inputs:
       notifyUsers: |
         pspokas@micron.com
-      instructions: 'Review and validate plan: $(Pipeline.Workspace)/PlanOutput/output.txt'
+      instructions: 'Review and validate plan'
       onTimeout: 'resume'
 
 - job: apply
