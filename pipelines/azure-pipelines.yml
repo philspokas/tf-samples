@@ -48,6 +48,7 @@ jobs:
       scriptLocation: 'inlineScript'
       inlineScript: |
         $out = "$(Build.ArtifactStagingDirectory)/output"
+        New-Item -Path $out -ItemType Directory
         terraform plan -out plan.out  `
           -var-file "main.tfvars" `
           -var "subscription_id=$(subscription_id)" `
@@ -56,11 +57,11 @@ jobs:
           -var "tenant_id=$env:tenantId" `
           -input=false  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
         "--- errors ---------------------------------------------------------------------------------------------"
-        type error.txt
+        type $out/error.txt
         "--- warnings -------------------------------------------------------------------------------------------"
-        type warn.txt
+        type $out/warn.txt
         "--- output ---------------------------------------------------------------------------------------------"
-        type output.txt
+        type $out/output.txt
         Get-Content error.txt | Foreach-Object {
           Write-Host "##vso[task.LogIssue type=error;]$_"
         }
