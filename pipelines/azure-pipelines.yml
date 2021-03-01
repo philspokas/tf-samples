@@ -68,14 +68,14 @@ jobs:
       workingDirectory: '$(target-dir)'
 
   - publish: $(Build.ArtifactStagingDirectory)/$(target-dir)/output
-    artifact: PlanOutput
+    artifact: Output
     continueOnError: true
 
   - publish: $(Build.SourcesDirectory)/$(target-dir)/.terraform
     artifact: Terraform
 
   - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
-    artifact: TerraformPlan
+    artifact: Plan
   
 - job: confirm_plan
   dependsOn: init_and_plan
@@ -87,7 +87,7 @@ jobs:
     timeoutInMinutes: 1440 # task times out in 1 day
     inputs:
       notifyUsers: |
-        pspokas@micron.com
+        $(ValidationUsers)
       instructions: 'Review and validate plan'
       onTimeout: 'resume'
 
@@ -98,7 +98,7 @@ jobs:
   - task: DownloadPipelineArtifact@2
     inputs:
       buildType: 'current'
-      artifactName: 'PlanOutput'
+      artifactName: 'Plan'
       targetPath: '$(Build.SourcesDirectory)/$(target-dir)/'
   
   - task: DownloadPipelineArtifact@2
