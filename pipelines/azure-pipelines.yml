@@ -132,4 +132,9 @@ jobs:
       powerShellErrorActionPreference: 'continue'
       addSpnToEnvironment: true
       workingDirectory: '$(target-dir)'
-      
+  
+  # publish results
+  # - task: PublishToAzureServiceBus@1
+  #   inputs:
+  #     signPayload: false
+  #     waitForCompletion: false
