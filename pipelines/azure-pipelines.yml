@@ -112,6 +112,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        ls
         ls .terraform
         terraform apply plan.out
       errorActionPreference: 'continue'
