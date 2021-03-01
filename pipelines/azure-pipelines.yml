@@ -52,7 +52,7 @@ jobs:
           -var "subscription_id=$(subscription_id)" `
           -var "client_id=$(client_id)" `
           -var "client_secret=$(client_secret)" `
-          -var "tenant_id=$tenant_id)" `
+          -var "tenant_id=$(tenant_id)" `
           -input=false -no-color  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
         "--- errors ---------------------------------------------------------------------------------------------"
         type $out/error.txt
