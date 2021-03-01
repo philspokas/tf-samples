@@ -100,8 +100,6 @@ jobs:
     inputs:
       buildType: 'current'
       artifactName: 'Plan'
-      itemPattern: 'plan.out'
-      targetPath: '$(Build.SourcesDirectory)/$(target-dir)'
   
   - task: DownloadPipelineArtifact@2
     displayName: Download Terraform Configuration
