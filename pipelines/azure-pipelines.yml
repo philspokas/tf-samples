@@ -113,8 +113,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        ls
-        ls .terraform
+        ls $(Pipeline.Workspace)
         terraform apply plan.out
       errorActionPreference: 'continue'
       workingDirectory: '$(target-dir)'
