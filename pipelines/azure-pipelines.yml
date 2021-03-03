@@ -45,7 +45,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        $plan = $(Build.ArtifactStagingDirectory)/$(target-dir)/plan
+        $plan = "$(Build.ArtifactStagingDirectory)/$(target-dir)/plan"
         New-Item -path $plan -ItemType Directory
 
         $out = "$(Build.ArtifactStagingDirectory)/$(target-dir)/output"
