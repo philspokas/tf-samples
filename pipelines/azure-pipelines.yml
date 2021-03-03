@@ -77,19 +77,19 @@ jobs:
   - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
     artifact: Plan
   
-- job: confirm_plan
-  dependsOn: init_and_plan
-  displayName: Review and confirm plan  
-  pool: server    
-  timeoutInMinutes: 2880 # times out in 2 days
-  steps:   
-  - task: ManualValidation@0
-    timeoutInMinutes: 1440 # task times out in 1 day
-    inputs:
-      notifyUsers: |
-        $(ValidationUsers)
-      instructions: 'Review and validate plan'
-      onTimeout: 'resume'
+# - job: confirm_plan
+#   dependsOn: init_and_plan
+#   displayName: Review and confirm plan  
+#   pool: server    
+#   timeoutInMinutes: 2880 # times out in 2 days
+#   steps:   
+#   - task: ManualValidation@0
+#     timeoutInMinutes: 1440 # task times out in 1 day
+#     inputs:
+#       notifyUsers: |
+#         $(ValidationUsers)
+#       instructions: 'Review and validate plan'
+#       onTimeout: 'resume'
 
 - job: apply
   dependsOn: confirm_plan
@@ -120,6 +120,7 @@ jobs:
         ls
         type .terraform/terraform.tfstate
         terraform apply plan.out 3>$out/warn.txt 2>$out/error.txt >$out/output.txt
+        ls
       errorActionPreference: 'continue'
       showWarnings: true
       workingDirectory: '$(target-dir)'
