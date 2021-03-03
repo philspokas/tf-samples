@@ -45,14 +45,22 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        $plan = $(Build.ArtifactStagingDirectory)/$(target-dir)/plan
+        New-Item -path $plan -ItemType Directory
+
         $out = "$(Build.ArtifactStagingDirectory)/$(target-dir)/output"
         New-Item -Path $out -ItemType Directory
+
         terraform plan -out plan.out  `
           -var "subscription_id=$(subscription_id)" `
           -var "client_id=$(client_id)" `
           -var "client_secret=$(client_secret)" `
           -var "tenant_id=$(tenant_id)" `
           -input=false -no-color  3>$out/warn.txt 2>$out/error.txt >$out/output.txt
+        
+        Copy-Item -Path .\plan.out -Destination $plan
+        Copy-Item -Path .\.terraform.lock.hcl -Destination $plan
+
         "--- errors ---------------------------------------------------------------------------------------------"
         type $out/error.txt
         "--- warnings -------------------------------------------------------------------------------------------"
@@ -62,7 +70,7 @@ jobs:
         Get-Content error.txt | Foreach-Object {
           Write-Host "##vso[task.LogIssue type=error;]$_"
         }
-        # Write-Host "##vso[task.uploadsummary]$out/output.txt"
+
       errorActionPreference: 'continue'
       workingDirectory: '$(target-dir)'
 
@@ -73,7 +81,7 @@ jobs:
   - publish: $(Build.SourcesDirectory)/$(target-dir)/.terraform
     artifact: Terraform
 
-  - publish: $(Build.SourcesDirectory)/$(target-dir)/plan.out
+  - publish: $(Build.SourcesDirectory)/$(target-dir)/plan
     artifact: Plan
   
 # - job: confirm_plan
@@ -99,7 +107,7 @@ jobs:
     inputs:
       buildType: 'current'
       artifactName: 'Plan'
-  
+      targetPath: '$(Build.SourcesDirectory)/$(target-dir)/'
   - task: DownloadPipelineArtifact@2
     displayName: Download Terraform Configuration
     inputs:
@@ -112,13 +120,11 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        ls .terraform
-        $out = "$(Build.ArtifactStagingDirectory)/$(target-dir)/applyoutput"
-        New-Item -Path $out -ItemType Directory
-        Move-Item -Path $(Pipeline.Workspace)/plan.out -Destination $(Build.SourcesDirectory)/$(target-dir)
         ls
-        type .terraform/terraform.tfstate
+        ls .terraform
+
         terraform apply plan.out 
+
         ls
       errorActionPreference: 'continue'
       showWarnings: true
@@ -128,44 +134,6 @@ jobs:
     artifact: ApplyOutput
     continueOnError: true
 
-  # - task: PowerShell@2
-  #   displayName: 'terraform init'
-  #   inputs:
-  #     targetType: 'inline'
-  #     script: |
-  #       terraform init `
-  #         -backend-config="resource_group_name=$(resource_group_name)" `
-  #         -backend-config="storage_account_name=$(tfStorageAccount)" `
-  #         -backend-config="container_name=$(tfStateContainerName)" `
-  #         -backend-config="access_key=$(tfAccountKey)" `
-  #         -backend-config="key=$(MyEnvironmentName).sample.tfstate" `
-  #         -input=false  3>warn.txt 2>error.txt >output.txt
-  #         "---- warnings --- "
-  #         type warn.txt
-  #         "--- errors ---"
-  #         type error.txt
-  #         "--- output ---"
-  #         type output.txt
-  #     errorActionPreference: 'continue'
-  #     workingDirectory: '$(target-dir)'
-  # - task: AzureCLI@2
-  #   displayName: apply
-  #   inputs:
-  #     azureSubscription: 'mti-policy-01-srvc'
-  #     scriptType: 'ps'
-  #     scriptLocation: 'inlineScript'
-  #     inlineScript: |
-  #       terraform apply  `
-  #         -var-file "main.tfvars" `
-  #         -var "subscription_id=$(subscription_id)" `
-  #         -var "client_id=$env:servicePrincipalId" `
-  #         -var "client_secret=$env:servicePrincipalKey" `
-  #         -var "tenant_id=$env:tenantId" `
-  #         -input=false
-  #     powerShellErrorActionPreference: 'continue'
-  #     addSpnToEnvironment: true
-  #     workingDirectory: '$(target-dir)'
-    
   # publish results
   # - task: PublishToAzureServiceBus@1
   #   inputs:
