@@ -16,7 +16,7 @@ jobs:
 - job: init_and_plan
   steps:
   - powershell: .\build\create-tfvars.ps1
-    displayName: 'Build tfvars'
+    displayName: 'Build main.auto.tfvars'
     workingDirectory: $(target-dir)
   
   - task: PowerShell@2
@@ -48,7 +48,6 @@ jobs:
         $out = "$(Build.ArtifactStagingDirectory)/$(target-dir)/output"
         New-Item -Path $out -ItemType Directory
         terraform plan -out plan.out  `
-          -var-file "main.tfvars" `
           -var "subscription_id=$(subscription_id)" `
           -var "client_id=$(client_id)" `
           -var "client_secret=$(client_secret)" `
