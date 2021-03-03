@@ -81,7 +81,7 @@ jobs:
   - publish: $(Build.SourcesDirectory)/$(target-dir)/.terraform
     artifact: Terraform
 
-  - publish: $(Build.SourcesDirectory)/$(target-dir)/plan
+  - publish: $(Build.ArtifactStagingDirectory)/$(target-dir)/plan
     artifact: Plan
   
 # - job: confirm_plan
