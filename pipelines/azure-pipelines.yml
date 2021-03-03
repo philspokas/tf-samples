@@ -119,7 +119,7 @@ jobs:
         Move-Item -Path $(Pipeline.Workspace)/plan.out -Destination $(Build.SourcesDirectory)/$(target-dir)
         ls
         type .terraform/terraform.tfstate
-        terraform apply plan.out 3>$out/warn.txt 2>$out/error.txt >$out/output.txt
+        terraform apply plan.out 
         ls
       errorActionPreference: 'continue'
       showWarnings: true
