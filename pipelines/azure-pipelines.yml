@@ -25,7 +25,7 @@ jobs:
       targetType: 'inline'
       script: |
         terraform init `
-          -backend-config="resource_group_name=$(resource_group_name)" `
+          -backend-config="resource_group_name=$(tfResourceGroup)" `
           -backend-config="storage_account_name=$(tfStorageAccount)" `
           -backend-config="container_name=$(tfStateContainerName)" `
           -backend-config="access_key=$(tfAccountKey)" `
