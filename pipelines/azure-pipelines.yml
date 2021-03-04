@@ -99,7 +99,7 @@ jobs:
       onTimeout: 'resume'
 
 - job: apply
-  dependsOn: init_and_plan
+  dependsOn: confirm_plan
     
   steps:
   - task: DownloadPipelineArtifact@2
