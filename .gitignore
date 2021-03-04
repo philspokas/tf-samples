@@ -20,5 +20,8 @@ terraform.txt
 # provider files
 *.exe
 
-#cache files
+# cache files
 **/.terraform.d/plugin-chache
+
+# lock files
+.terraform.lock.hcl
