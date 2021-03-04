@@ -84,19 +84,19 @@ jobs:
   - publish: $(Build.ArtifactStagingDirectory)/$(target-dir)/plan
     artifact: Plan
   
-# - job: confirm_plan
-#   dependsOn: init_and_plan
-#   displayName: Review and confirm plan  
-#   pool: server    
-#   timeoutInMinutes: 2880 # times out in 2 days
-#   steps:   
-#   - task: ManualValidation@0
-#     timeoutInMinutes: 1440 # task times out in 1 day
-#     inputs:
-#       notifyUsers: |
-#         $(ValidationUsers)
-#       instructions: 'Review and validate plan'
-#       onTimeout: 'resume'
+- job: confirm_plan
+  dependsOn: init_and_plan
+  displayName: Review and confirm plan  
+  pool: server    
+  timeoutInMinutes: 2880 # times out in 2 days
+  steps:   
+  - task: ManualValidation@0
+    timeoutInMinutes: 1440 # task times out in 1 day
+    inputs:
+      notifyUsers: |
+        $(ValidationUsers)
+      instructions: 'Review and validate plan'
+      onTimeout: 'resume'
 
 - job: apply
   dependsOn: init_and_plan
@@ -120,7 +120,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        terraform apply plan.out 3>$(Build.ArtifactStagingDirectory)/warn.txt 2>$(Build.ArtifactStagingDirectory)/error.txt >$(Build.ArtifactStagingDirectory)/output.txt
+        terraform apply plan.out -no-color 3>$(Build.ArtifactStagingDirectory)/warn.txt 2>$(Build.ArtifactStagingDirectory)/error.txt >$(Build.ArtifactStagingDirectory)/output.txt
       errorActionPreference: 'continue'
       showWarnings: true
       workingDirectory: '$(target-dir)'
