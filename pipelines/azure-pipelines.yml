@@ -121,6 +121,12 @@ jobs:
       targetType: 'inline'
       script: |
         terraform apply plan.out -no-color 3>$(Build.ArtifactStagingDirectory)/warn.txt 2>$(Build.ArtifactStagingDirectory)/error.txt >$(Build.ArtifactStagingDirectory)/output.txt
+          "---- warnings --- "
+          type $(Build.ArtifactStagingDirectory)/warn.txt
+          "--- errors ---"
+          type $(Build.ArtifactStagingDirectory)/error.txt
+          "--- output ---"
+          type $(Build.ArtifactStagingDirectory)/output.txt
       errorActionPreference: 'continue'
       showWarnings: true
       workingDirectory: '$(target-dir)'
@@ -129,7 +135,6 @@ jobs:
     artifact: ApplyOutput
     continueOnError: true
   
-  # publish results
   # - task: PublishToAzureServiceBus@1
   #   inputs:
   #     signPayload: false
