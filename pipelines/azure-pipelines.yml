@@ -120,16 +120,14 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        terraform apply plan.out 3>warn.txt 2>error.txt >output.txt
-        Copy-Item -Path *.txt -Destination $(Build.ArtifactStagingDirectory)/$(target-dir)
+        terraform apply plan.out 3>$(Build.ArtifactStagingDirectory)/warn.txt 2>$(Build.ArtifactStagingDirectory)/error.txt >$(Build.ArtifactStagingDirectory)/output.txt
       errorActionPreference: 'continue'
       showWarnings: true
       workingDirectory: '$(target-dir)'
 
-  - publish: $(Build.ArtifactStagingDirectory)/$(target-dir)
+  - publish: $(Build.ArtifactStagingDirectory)
     artifact: ApplyOutput
     continueOnError: true
-
   
   # publish results
   # - task: PublishToAzureServiceBus@1
