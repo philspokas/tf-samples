@@ -49,6 +49,16 @@ provider "azurerm" {
     features {}
 }
 
+module "resourcegroup" {
+    source              = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/resourcegroup"
+    resource_group_name = var.input_resource_group_name
+    subscription_id     = var.subscription_id
+    client_id           = var.client_id
+    client_secret       = var.client_secret
+    tenant_id           = var.tenant_id
+    tags                = var.input_tags
+}
+
 module "logicappworkflow" {
     source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow"
     workflow_name            = var.input_workflow_name
