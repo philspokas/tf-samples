@@ -5,7 +5,6 @@ pool:
   name: 'Terraform-windows-agents'
 
 variables:
-- name: target-dir
 - group: samples
 - group: tags
 
