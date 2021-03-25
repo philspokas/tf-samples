@@ -50,7 +50,7 @@ provider "azurerm" {
 }
 
 module "resourcegroup" {
-    source              = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/resourcegroup"
+    source              = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/resourcegroup?ref=resourcegroup/1.0.1"
     resource_group_name = var.input_resource_group_name
     subscription_id     = var.subscription_id
     client_id           = var.client_id
@@ -60,7 +60,7 @@ module "resourcegroup" {
 }
 
 module "logicappworkflow" {
-    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow"
+    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/logicappworkflow?logicappworkflow/2.0.0"
     workflow_name            = var.input_workflow_name
     resource_group_name      = var.input_resource_group_name
     use_integration_service  = false
@@ -82,7 +82,7 @@ module "servicebus" {
     vnet_resource_group_name    = ""
     vnet_name                   = ""
     subnet_name                 = ""
-    private_endpoint_enabled    = "false"
+    private_endpoint_enabled    = false
 
     providers = {
         azurerm.prod = azurerm.prod
