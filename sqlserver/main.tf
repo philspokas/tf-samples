@@ -62,6 +62,7 @@ module "sqlserver" {
     providers = {
         azurerm.dns  = azurerm.dns
     }
+    depends_on = [module.resourcegroup]
 }
 
 output "sql_server_name" {
