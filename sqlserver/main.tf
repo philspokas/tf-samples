@@ -17,7 +17,7 @@ terraform {
     required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
-            version = ">= 2.47"
+            version = "2.47"
         }
     }
 }
@@ -47,7 +47,7 @@ module "resourcegroup" {
 }
 
 module "sqlserver" {
-    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/sqlserver"
+    source                   = "git::https://bitbucket.micron.com/bbdc/scm/cloudstds/azure.git//terraform/sqlserver?ref=updates/log-analytics"
     resource_group_name      = var.input_resource_group_name
     server_admin_login       = var.input_server_admin_login
     sql_server_name          = var.input_sql_server_name

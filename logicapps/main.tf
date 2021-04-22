@@ -69,6 +69,8 @@ module "logicappworkflow" {
     providers = {
         azurerm.prod = azurerm.prod
     }
+    depends_on = [module.resourcegroup]
+
 }
 
 module "servicebus" {
@@ -88,5 +90,6 @@ module "servicebus" {
         azurerm.prod = azurerm.prod
         azurerm.dns  = azurerm.dns
     }
+    depends_on = [module.resourcegroup]
 }
 
